@@ -121,7 +121,7 @@ $conn->close();
 		
 				<!-- Display Average Alcohol Consumption Information -->
 		<div>        
-			<h2>Gennemsnitligt antal genstande per fest, baseret på data herfra siden</h2>
+			<h2>Gennemsnitligt antal genstande per bruger af siden</h2>
             <p>Gennemsnitligt antal genstande (mænd): <?php echo round($avg_male_units, 2); ?></p>
             <p>Gennemsnitligt antal genstande (kvinder): <?php echo round($avg_female_units, 2); ?></p>
         </div>
