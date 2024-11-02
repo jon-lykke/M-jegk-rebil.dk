@@ -1,5 +1,5 @@
 <?php
-include('db_connection.php');
+include 'db_connection.php';
 
 // Capture form data from POST request
 $gender = $_POST['gender'] ?? 'male';
@@ -29,7 +29,7 @@ if ($start_day === "yesterday") {
 }
 
 // Define constants for time calculations
-define('SECONDS_IN_AN_HOUR', 3600);
+const SECONDS_IN_AN_HOUR = 3600;
 
 // Print debug information to verify the constructed start datetime
 echo "Constructed Start Datetime (Local Time): $start_datetime<br>";

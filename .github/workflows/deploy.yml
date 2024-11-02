@@ -1,0 +1,29 @@
+name: Deploy to Simply.com
+
+on:
+  push:
+    branches:
+      - master  # Change this if your default branch is named differently
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: ${{ secrets.FTP_PATH }}
+          method: ftp  # Change to "sftp" if Simply.com uses SFTP
+          exclude: |
+            .git*
+            .github/
+            README.md
+            deploy.yml
