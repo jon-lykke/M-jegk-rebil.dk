@@ -16,11 +16,11 @@ jobs:
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: ${{ secrets.FTP_PATH }}
+          server: ${{ secrets.maajegkoerebil_deployment.FTP_HOST }}
+          username: ${{ secrets.maajegkoerebil_deployment.FTP_USERNAME }}
+          password: ${{ secrets.maajegkoerebil_deployment.FTP_PASSWORD }}
+          local-dir: ./ 
+          server-dir: ${{ secrets.maajegkoerebil_deployment.FTP_PATH }}
           method: ftp  # Change to "sftp" if Simply.com uses SFTP
           exclude: |
             .git*
