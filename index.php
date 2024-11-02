@@ -83,21 +83,32 @@ $conn->close();
 				</select>
 			</div>
 
-			<!-- Calculate Button -->
-			<form action="calculate.php" method="POST">
-				<!-- Existing form fields -->
-				<input type="hidden" id="timezone_offset" name="timezone_offset">
-				<button type="submit">Beregn</button>
-			</form>
+			 <!-- Hidden fields for local start datetime and timezone offset -->
+            <input type="hidden" id="local_start_datetime" name="local_start_datetime">
+            <input type="hidden" id="timezone_offset" name="timezone_offset">
 
-			<script>
-				// Correctly set the user's timezone offset in minutes
-				document.getElementById('timezone_offset').value = new Date().getTimezoneOffset();
-			</script>
-		
-        </form>
-        
-        <!-- Result Field -->
+			<!-- Calculate Button -->
+			<button type="submit">Beregn</button>
+		</form>
+
+		<script>
+			document.querySelector('form').addEventListener('submit', function() {
+				const startDay = document.getElementById('start_day').value;
+				const startHour = document.getElementById('start_hour').value;
+				const startMinute = document.getElementById('start_minute').value;
+
+				let startDate = new Date();
+				if (startDay === 'yesterday') {
+					startDate.setDate(startDate.getDate() - 1);
+				}
+				startDate.setHours(startHour, startMinute, 0, 0);
+
+				document.getElementById('local_start_datetime').value = startDate.toISOString();
+				document.getElementById('timezone_offset').value = -startDate.getTimezoneOffset();
+			});
+		</script>
+
+		<!-- Result Field -->
 		<?php if (isset($_GET['result'])): ?>
 			<div id="result">
 				<h2>Resultat</h2>
