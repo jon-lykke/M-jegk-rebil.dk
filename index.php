@@ -119,26 +119,26 @@ $avg_female_units = $avg_female_units ?? 0;
         </script>
 
         <!-- Result Field -->
-        <?php if (isset($_GET['result'])): ?>
-            <div id="result">
-                <h2>Resultat</h2>
-                <p><?php echo htmlspecialchars($_GET['result']); ?></p>
-            </div>
-            
-            <!-- Information about metabolism rate -->
-            <p><em>Viden om forbrænding: I gennemsnit forbrænder et menneske 0,15 promille i timen, men det kan variere en hel del, afhængig af køn og vægt (de primære faktorer).</em></p>
+		<?php if (isset($_GET['result']) && !empty($_GET['result'])): ?>
+			<div id="result">
+				<h2>Resultat</h2>
+				<p><?php echo htmlspecialchars($_GET['result']); ?></p>
+			</div>
+		<?php endif; ?>
+        
+        <!-- Information about metabolism rate -->
+        <p><em>Viden om forbrænding: I gennemsnit forbrænder et menneske 0,15 promille i timen, men det kan variere en hel del, afhængig af køn og vægt (de primære faktorer).</em></p>
 
-            <!-- Information about standard drinks -->
-            <div style="border: 1px solid #ccc; padding: 10px; background-color: #f9f9f9;">
-                <p><strong>1 genstand = 12 gram alkohol</strong></p>
-                <ul>
-                    <li>1 øl (33 cl.) på 4,6 % = 1 genstand</li>
-                    <li>4 cl. snaps på 40% = 1 genstand</li>
-                    <li>2 dl. glas rødvin på 14% = 1,8 genstand</li>
-                    <li>2 dl. glas hvidvin på 12% = 1,6 genstande</li>
-                </ul>
-            </div>
-        <?php endif; ?>
+        <!-- Information about standard drinks -->
+        <div style="border: 1px solid #ccc; padding: 10px; background-color: #f9f9f9;">
+            <p><strong>1 genstand = 12 gram alkohol</strong></p>
+            <ul>
+                <li>1 øl (33 cl.) på 4,6 % = 1 genstand</li>
+                <li>4 cl. snaps på 40% = 1 genstand</li>
+                <li>2 dl. glas rødvin på 14% = 1,8 genstand</li>
+                <li>2 dl. glas hvidvin på 12% = 1,6 genstande</li>
+            </ul>
+        </div>
         
         <!-- Display Average Alcohol Consumption Information -->
         <div>        

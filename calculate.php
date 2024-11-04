@@ -23,34 +23,56 @@ error_log("Formatted Timezone: " . $formatted_timezone);
 error_log("Formatted Start Time: " . $formatted_start_time);
 error_log("Alcohol Consumed: " . $alcohol_consumed);
 
-// Calculate the time difference in hours
+// Calculate and log the time difference in hours
 $start_datetime = new DateTime($local_start_datetime);
 $current_datetime = new DateTime();
 $current_datetime->setTimezone(new DateTimeZone('UTC'));
 $interval = $current_datetime->diff($start_datetime);
 $hours_passed = $interval->days * 24 + $interval->h + $interval->i / 60 + $interval->s / 3600;
 $hours_passed = round($hours_passed, 1);
-
-// Log the time difference
 error_log("Time Passed: " . $hours_passed . " hours");
 
-// Calculate the BAC using the provided formula
+// Calculate and log the BAC using the provided formula
 $widmark_factor = ($gender === 'male') ? 0.68 : 0.55;
 $metabolism_rate = 0.15; // permille per hour
 $body_weight_grams = $weight * 1000;
 $alcohol_grams = $alcohol_consumed * 12; // 1 unit = 12 grams of alcohol
-
 $bac = max(0, ($alcohol_grams / ($body_weight_grams * $widmark_factor)) * 1000 - ($metabolism_rate * $hours_passed));
 $bac = round($bac, 2);
-
-// Log the BAC with two decimal places
 error_log("Current BAC: " . number_format($bac, 2) . " permille");
 
+// Calculate time to reach 0.5 permille and 0.0 permille
+$time_to_05 = '';
+$time_to_0 = '';
+
+if ($bac > 0.5) {
+    $hours_to_05 = ($bac - 0.5) / $metabolism_rate;
+    $hours_to_05 = floor($hours_to_05);
+    $minutes_to_05 = round((($bac - 0.5) / $metabolism_rate - $hours_to_05) * 60);
+    $time_to_05 = $hours_to_05 . " hours and " . $minutes_to_05 . " minutes";
+    error_log("Time to reach 0.5 permille: " . $time_to_05);
+}
+
+if ($bac > 0) {
+    $hours_to_0 = $bac / $metabolism_rate;
+    $hours_to_0 = floor($hours_to_0);
+    $minutes_to_0 = round(($bac / $metabolism_rate - $hours_to_0) * 60);
+    $time_to_0 = $hours_to_0 . " hours and " . $minutes_to_0 . " minutes";
+    error_log("Time to reach 0.0 permille: " . $time_to_0);
+}
+
 // Redirect back to index.php with a message
-header("Location: index.php?result=Gender, weight, start time, and BAC logged successfully");
+$message = '';
+if ($time_to_05) {
+    $message .= "Time to reach 0.5 permille: " . $time_to_05 . ". ";
+}
+if ($time_to_0) {
+    $message .= "Time to reach 0.0 permille: " . $time_to_0 . ". ";
+}
+header("Location: index.php?result=" . urlencode(trim($message)));
 exit();
 
-// Lines 120 and 121
+// Output: Average units per page user
 echo "Average male units: " . $avg_male_units;
 echo "Average female units: " . $avg_female_units;
 ?>
