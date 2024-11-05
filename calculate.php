@@ -50,7 +50,7 @@ if ($bac > 0.5) {
     $hours_to_05 = floor($hours_to_05);
     $minutes_to_05 = round((($bac - 0.5) / $metabolism_rate - $hours_to_05) * 60);
     $time_to_05 = $hours_to_05 . " hours and " . $minutes_to_05 . " minutes";
-    error_log("Time to reach 0.5 permille: " . $time_to_05);
+    error_log("Der går " . $time_to_05) . " før din promille er 0.5";
 }
 
 if ($bac > 0) {
@@ -58,16 +58,22 @@ if ($bac > 0) {
     $hours_to_0 = floor($hours_to_0);
     $minutes_to_0 = round(($bac / $metabolism_rate - $hours_to_0) * 60);
     $time_to_0 = $hours_to_0 . " hours and " . $minutes_to_0 . " minutes";
-    error_log("Time to reach 0.0 permille: " . $time_to_0);
+    error_log("Der går " . $time_to_0) . " før din promille er 0.0";
 }
 
 // Redirect back to index.php with a message
 $message = '';
-if ($time_to_05) {
-    $message .= "Time to reach 0.5 permille: " . $time_to_05 . ". ";
-}
-if ($time_to_0) {
-    $message .= "Time to reach 0.0 permille: " . $time_to_0 . ". ";
+if ($bac == 0) {
+    $message = "You are sober.";
+} elseif ($bac < 0.5) {
+    $message = "Der går " . $time_to_0 . " før din promille er 0.0.";
+} else {
+    if ($time_to_05) {
+        $message .= "Der går " . $time_to_05 . " før din promille er 0.5.\n";
+    }
+    if ($time_to_0) {
+        $message .= "Der går " . $time_to_0 . " før din promille er 0.0.";
+    }
 }
 header("Location: index.php?result=" . urlencode(trim($message)));
 exit();

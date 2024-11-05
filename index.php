@@ -4,6 +4,12 @@ include('db_connection.php');
 // Initialize variables to avoid undefined variable warnings
 $avg_male_units = $avg_male_units ?? 0;
 $avg_female_units = $avg_female_units ?? 0;
+
+// Check for result in GET parameters
+$result = '';
+if (isset($_GET['result']) && !empty($_GET['result'])) {
+    $result = nl2br(htmlspecialchars($_GET['result']));
+}
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +65,7 @@ $avg_female_units = $avg_female_units ?? 0;
                 <!-- Hour Dial -->
                 <select id="start_hour" name="start_hour" required>
                     <?php for ($i = 0; $i < 24; $i++): ?>
-                        <option value="<?php echo $i; ?>"><?php echo str_pad($i, 2, '0', STR_PAD_LEFT); ?></option>
+                        <option value="<?php echo htmlspecialchars($i); ?>"><?php echo htmlspecialchars(str_pad($i, 2, '0', STR_PAD_LEFT)); ?></option>
                     <?php endfor; ?>
                 </select>
 
@@ -119,12 +125,12 @@ $avg_female_units = $avg_female_units ?? 0;
         </script>
 
         <!-- Result Field -->
-		<?php if (isset($_GET['result']) && !empty($_GET['result'])): ?>
-			<div id="result">
-				<h2>Resultat</h2>
-				<p><?php echo htmlspecialchars($_GET['result']); ?></p>
-			</div>
-		<?php endif; ?>
+        <?php if (!empty($result)): ?>
+            <div id="result">
+                <h2>Resultat</h2>
+                <p><?php echo $result; ?></p>
+            </div>
+        <?php endif; ?>
         
         <!-- Information about metabolism rate -->
         <p><em>Viden om forbrænding: I gennemsnit forbrænder et menneske 0,15 promille i timen, men det kan variere en hel del, afhængig af køn og vægt (de primære faktorer).</em></p>
@@ -143,8 +149,8 @@ $avg_female_units = $avg_female_units ?? 0;
         <!-- Display Average Alcohol Consumption Information -->
         <div>        
             <h2>Gennemsnitligt antal genstande per bruger af siden</h2>
-            <p>Gennemsnitligt antal genstande (mænd): <?php echo round($avg_male_units, 2); ?></p>
-            <p>Gennemsnitligt antal genstande (kvinder): <?php echo round($avg_female_units, 2); ?></p>
+            <p>Gennemsnitligt antal genstande (mænd): <?php echo htmlspecialchars(round($avg_male_units, 2)); ?></p>
+            <p>Gennemsnitligt antal genstande (kvinder): <?php echo htmlspecialchars(round($avg_female_units, 2)); ?></p>
         </div>
     </main>
 </div>
